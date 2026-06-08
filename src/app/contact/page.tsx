@@ -62,7 +62,7 @@ const steps = [
 ];
 
 const offices = [
-  { city: 'Basel, Switzerland', role: 'Global HQ', address: '100 Innovation Way, Basel CH-4051', phone: '+41 61 555 0198' },
+  { city: 'Surat, India', role: 'Global HQ', address: '121, Saketdham, Punagam, Surat, Gujarat', phone: '+91 9374093573' },
   { city: 'New York, USA', role: 'North America Hub', address: '500 Commerce Park, NJ 07094', phone: '+1 201 555 0123' },
   { city: 'Singapore', role: 'Asia Pacific Hub', address: '30 Biopolis Street, #07-02', phone: '+65 6555 0198' },
 ];
@@ -95,7 +95,7 @@ export default function ContactPage() {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch(`${API_URL}/api/contact`, {
+      const res = await fetch(`/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -263,9 +263,9 @@ export default function ContactPage() {
 
               <div className="space-y-6 relative z-10">
                 {[
-                  { icon: MapPin, title: 'Address', text: '100 Innovation Way, Basel CH-4051' },
-                  { icon: Phone, title: 'Direct Line', text: '+41 61 555 0198' },
-                  { icon: Mail, title: 'Partnerships', text: 'partnerships@neovision.ch' },
+                  { icon: MapPin, title: 'Address', text: '121, Saketdham, Punagam, Surat, Gujarat, India' },
+                  { icon: Phone, title: 'Direct Line', text: '+91 9374093573 / 9924576896' },
+                  { icon: Mail, title: 'Email Address', text: 'neovisionhc@gmail.com' },
                 ].map(({ icon: Icon, title, text }) => (
                   <div key={text} className="flex items-start gap-4 group/item">
                     <div className="mt-1 bg-[#f8faff] p-1.5 rounded-lg border border-[#e7eeff] shadow-sm group-hover/item:bg-white group-hover/item:border-cyan-200 group-hover/item:shadow-md transition-all duration-300">

@@ -6,8 +6,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Preloader() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [randomMolecules, setRandomMolecules] = useState<Array<{xStart: number, xEnd: number, yStart: number, yEnd: number, duration: number, delay: number}>>([]);
 
   useEffect(() => {
+    setRandomMolecules([...Array(6)].map(() => ({
+      xStart: (Math.random() - 0.5) * 200,
+      xEnd: (Math.random() - 0.5) * 300,
+      yStart: (Math.random() - 0.5) * 200,
+      yEnd: (Math.random() - 0.5) * 300,
+      duration: 4 + Math.random() * 3,
+      delay: Math.random() * 2
+    })));
+
     // Simulate loading progress
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -120,23 +130,23 @@ export default function Preloader() {
               </motion.div>
 
               {/* Floating Medical Molecules (Hexagons) */}
-              {[...Array(6)].map((_, i) => (
+              {randomMolecules.map((config, i) => (
                 <motion.div
                   key={`mol-${i}`}
                   className="absolute"
                   style={{ transformStyle: 'preserve-3d' }}
                   animate={{ 
-                    x: [0, (Math.random() - 0.5) * 200, (Math.random() - 0.5) * 300],
-                    y: [0, (Math.random() - 0.5) * 200, (Math.random() - 0.5) * 300],
+                    x: [0, config.xStart, config.xEnd],
+                    y: [0, config.yStart, config.yEnd],
                     rotateZ: [0, 360],
                     opacity: [0, 0.8, 0],
                     scale: [0.2, 1, 0.2]
                   }}
                   transition={{ 
-                    duration: 4 + Math.random() * 3, 
+                    duration: config.duration, 
                     repeat: Infinity, 
                     ease: "easeInOut",
-                    delay: Math.random() * 2
+                    delay: config.delay
                   }}
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">

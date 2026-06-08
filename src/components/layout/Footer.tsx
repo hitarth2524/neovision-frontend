@@ -35,8 +35,8 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-b from-[#0a1118] to-[#04080f] text-white relative overflow-hidden border-t border-white/5">
       {/* Decorative large watermark */}
-      <div className="absolute -bottom-20 -right-20 text-[20rem] font-bold text-white opacity-[0.02] pointer-events-none select-none font-[family-name:var(--font-inter)]">
-        NV
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] md:text-[12rem] lg:text-[18rem] font-black text-white opacity-[0.05] pointer-events-none select-none font-[family-name:var(--font-inter)] tracking-tighter whitespace-nowrap z-0">
+        NEOVISION
       </div>
 
       {/* Decorative blur blobs */}
@@ -125,9 +125,9 @@ export default function Footer() {
         {/* Contact info strip (Redesigned as Glassmorphism Cards) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/10 pt-10 mb-10">
           {[
-            { icon: MapPin, text: 'NeoVision Campus, 100 Innovation Way, Basel CH-4051, Switzerland' },
-            { icon: Phone, text: '+41 61 555 0198 · +41 61 555 0199' },
-            { icon: Mail, text: 'sales@neovision.ch · qa@neovision.ch' },
+            { icon: MapPin, text: '121, Saketdham, Punagam, Surat, Gujarat, India' },
+            { icon: Phone, text: '+91 9374093573 / +91 9924576896' },
+            { icon: Mail, text: 'neovisionhc@gmail.com' },
           ].map(({ icon: Icon, text }, idx) => (
             <motion.div 
               key={text} 

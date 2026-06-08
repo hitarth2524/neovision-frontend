@@ -7,7 +7,7 @@ import Link from 'next/link';
 import SplitTextReveal from '@/components/animations/SplitTextReveal';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, CheckCircle2, Truck, Snowflake, ShieldCheck, Heart, Stethoscope, Baby, Eye, Ear, Brain, Globe, Network } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Truck, Snowflake, ShieldCheck, Heart, Stethoscope, Baby, Eye, Ear, Brain, Globe, Network, MapPin, Package } from 'lucide-react';
 import PageBanner from '@/components/ui/PageBanner';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -91,37 +91,29 @@ const qualityStandards = [
 
 const qualityImages = [
   {
-    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
+    img: '/images/image.png',
     caption: 'State-of-the-Art Quality Control'
   },
   {
-    img: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=800',
+    img: '/images/image copy.png',
     caption: 'Temperature-Controlled Storage'
   },
   {
-    img: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=800',
+    img: '/images/image copy 2.png',
     caption: 'Secure Medication Handling'
   },
   {
-    img: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800',
+    img: '/images/image copy 3.png',
     caption: 'Global Logistics Network'
   }
 ];
 
-const regions = [
-  { name: 'United States', count: '25+', label: 'GDP-Compliant Hubs', desc: 'State-of-the-art facilities ensuring regulatory compliance.', color: 'from-cyan-400 to-blue-500' },
-  { name: 'Germany', count: '18+', label: 'Cold-Chain Facilities', desc: 'Temperature-controlled storage for highly sensitive biologics.', color: 'from-blue-500 to-indigo-600' },
-  { name: 'UAE', count: '15+', label: 'Central Transit Hubs', desc: 'Connecting Eastern and Western global pharma markets.', color: 'from-cyan-500 to-teal-500' },
-  { name: 'India', count: '30+', label: 'Strategic Logistics Centers', desc: 'Rapid distribution network for time-critical medications.', color: 'from-indigo-400 to-purple-500' },
-  { name: 'Singapore', count: '12+', label: 'Specialized Pharma Depots', desc: 'Secure handling and distribution of specialized therapeutics.', color: 'from-purple-400 to-pink-500' },
-];
-
 const floatingCountries = [
-  { id: 'usa', name: 'United States', top: '32%', left: '20%', detail: 'Primary cold-chain logistics hub. 5 Major Distribution Centers.' },
-  { id: 'germany', name: 'Germany', top: '24%', left: '52%', detail: 'Advanced therapeutics & R&D compliance depot.' },
-  { id: 'uae', name: 'UAE', top: '44%', left: '62%', detail: 'Central transit hub connecting Eastern and Western markets.' },
-  { id: 'india', name: 'India', top: '51%', left: '70%', detail: 'Major manufacturing and export distribution center.' },
-  { id: 'singapore', name: 'Singapore', top: '64%', left: '78%', detail: 'High-tech GDP-compliant facility for the APAC region.' },
+  { id: 'usa', name: 'United States', top: '32%', left: '20%', stats: '25+', title: 'GDP-Compliant Hubs', desc: 'State-of-the-art facilities ensuring regulatory compliance.', detail: 'FDA-approved cold chain facilities for biologics.', Icon: ShieldCheck },
+  { id: 'germany', name: 'Germany', top: '24%', left: '52%', stats: '18+', title: 'Cold-Chain Facilities', desc: 'Temperature-controlled storage for highly sensitive biologics.', detail: 'Central European distribution center.', Icon: Snowflake },
+  { id: 'uae', name: 'UAE', top: '44%', left: '62%', stats: '15+', title: 'Central Transit Hubs', desc: 'Connecting Eastern and Western global pharma markets.', detail: 'Strategic bridging hub for Asia and Europe.', Icon: Globe },
+  { id: 'india', name: 'India', top: '51%', left: '70%', stats: '30+', title: 'Strategic Logistics Centers', desc: 'Rapid distribution network for time-critical medications.', detail: 'High-volume manufacturing and export hub.', Icon: Truck },
+  { id: 'singapore', name: 'Singapore', top: '64%', left: '78%', stats: '12+', title: 'Specialized Pharma Depots', desc: 'Secure handling and distribution of specialized therapeutics.', detail: 'High-tech GDP-compliant facility for the APAC region.', Icon: Package },
 ];
 
 export default function HomePage() {
@@ -131,6 +123,7 @@ export default function HomePage() {
   const expertiseRef = useRef<HTMLDivElement>(null);
   const certRef = useRef<HTMLDivElement>(null);
   const regionRef = useRef<HTMLDivElement>(null);
+  const [activeRegion, setActiveRegion] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -485,10 +478,18 @@ export default function HomePage() {
           <div className="lg:w-1/2 w-full pt-24 pb-8">
             <div className="flex flex-col gap-[50vh] w-full">
               {qualityImages.map((item, idx) => (
-                <div key={idx} className="sticky top-24 w-full h-[60vh] lg:h-[70vh] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgb(0,0,0,0.15)] group border-[8px] border-white/80 bg-white">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#003e7a]/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500 z-10" />
+                <motion.div 
+                  key={idx} 
+                  initial={{ opacity: 0, y: 120, scale: 0.85, rotateX: 15 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+                  viewport={{ margin: "-50px", once: true }}
+                  transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ transformPerspective: 1200, transformOrigin: "bottom center" }}
+                  className="sticky top-[25vh] w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,30,80,0.2)] group border-[8px] border-white/90 bg-white"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#003e7a]/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500 z-10 pointer-events-none" />
 
-                  <img src={item.img} alt={item.caption} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" />
+                  <img src={item.img} alt={item.caption} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
 
                   {/* Hover Glassmorphic Badge (Hidden by default, shows on hover) */}
                   <div className="absolute bottom-8 left-8 right-8 z-20">
@@ -502,115 +503,221 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
 
         </div>
       </section>      {/* REGIONS */}
-      <section className="bg-[#0c1a2d] relative py-24 lg:py-32 overflow-hidden" ref={regionRef}>
+      <section className="bg-[#f8fafc] relative pt-24 lg:pt-32 pb-16 overflow-hidden" ref={regionRef}>
 
-        {/* Animated Gradient Glows */}
-        <div className="absolute top-1/2 left-1/4 w-[30rem] h-[30rem] bg-blue-500/15 rounded-full blur-[120px] -translate-y-1/2 animate-pulse" style={{ animationDuration: '4s' }}></div>
-        <div className="absolute top-1/2 right-1/4 w-[30rem] h-[30rem] bg-cyan-500/15 rounded-full blur-[120px] -translate-y-1/2 animate-pulse" style={{ animationDuration: '5s' }}></div>
+        {/* Animated Background Topography/Grid */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.02] mix-blend-multiply pointer-events-none z-0"></div>
+        <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-gradient-to-b from-blue-100/50 to-transparent rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none z-0"></div>
+        <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-gradient-to-t from-teal-50/50 to-transparent rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none z-0"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm font-semibold tracking-wider mb-4 shadow-[0_0_15px_rgba(59,130,246,0.3)]">GLOBAL REACH</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white font-[family-name:var(--font-inter)] mb-6 tracking-tight">Worldwide Pharmaceutical Network</h2>
-            <p className="text-[#a0aabf] text-lg max-w-3xl mx-auto leading-relaxed">Our expansive, highly regulated distribution network ensures the secure, timely delivery of critical medical supplies and specialized therapeutics across multiple continents.</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-16">
+          <div className="text-center">
+            <span className="inline-block py-1.5 px-4 rounded-full bg-blue-50 border border-blue-100 text-[#003e7a] text-xs font-bold tracking-widest uppercase mb-4 shadow-sm">Global Reach</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#121c2c] font-[family-name:var(--font-inter)] mb-6 tracking-tight">Worldwide Pharmaceutical Network</h2>
+            <p className="text-[#424751] text-lg max-w-3xl mx-auto leading-relaxed">Our expansive, highly regulated distribution network ensures the secure, timely delivery of critical medical supplies and specialized therapeutics across multiple continents.</p>
           </div>
         </div>
 
-        <style>{`
-          @keyframes float-3d {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-12px) scale(1.05); }
-          }
-        `}</style>
-
-        {/* Interactive Map Area (FULL SCREEN WIDTH) */}
-        <div className="relative w-full max-w-[120rem] mx-auto px-4 sm:px-8 lg:px-12 z-10 mb-20">
-          <div className="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[2.2/1] xl:aspect-[2.5/1] min-h-[450px] lg:min-h-[600px] xl:min-h-[700px] rounded-[2rem] overflow-hidden border border-white/5 bg-[#121c2c]/40 shadow-2xl backdrop-blur-sm group">
+        {/* Interactive Map Area */}
+        <div className="relative w-full max-w-[100rem] mx-auto px-4 sm:px-8 lg:px-12 z-10">
+          {/* Glassmorphic Map Container */}
+          <div className="relative w-full aspect-[16/9] md:aspect-[2/1] lg:aspect-[2.8/1] min-h-[400px] lg:min-h-[500px] rounded-[2.5rem] overflow-hidden border border-white bg-white/40 shadow-[0_20px_50px_rgba(0,30,80,0.05)] backdrop-blur-2xl group">
+            
             {/* World Map Background Image */}
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-30 mix-blend-luminosity scale-105 transition-transform duration-[10s] group-hover:scale-110"></div>
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-[0.2] mix-blend-multiply scale-[1.02] transition-transform duration-[20s] group-hover:scale-105"></div>
+
+            {/* Connecting SVG Lines (3D Flight Paths) */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                <filter id="glow-3d" x="-20%" y="-20%" width="140%" height="140%">
+                  {/* Drop shadow for 3D elevation */}
+                  <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#001b36" floodOpacity="0.5" />
+                  <feGaussianBlur stdDeviation="0.8" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              
+              <g filter="url(#glow-3d)">
+                {mounted && (
+                  <>
+                    {/* Background solid faint line (Tracks) */}
+                    <path d="M 20 32 Q 36 10 52 24" fill="none" stroke="#003e7a" strokeWidth="2.5" vectorEffect="non-scaling-stroke" strokeDasharray="4,6" opacity="0.3" />
+                    <path d="M 52 24 Q 59 25 62 44" fill="none" stroke="#003e7a" strokeWidth="2.5" vectorEffect="non-scaling-stroke" strokeDasharray="4,6" opacity="0.3" />
+                    <path d="M 62 44 Q 68 40 70 51" fill="none" stroke="#003e7a" strokeWidth="2.5" vectorEffect="non-scaling-stroke" strokeDasharray="4,6" opacity="0.3" />
+                    <path d="M 70 51 Q 76 52 78 64" fill="none" stroke="#003e7a" strokeWidth="2.5" vectorEffect="non-scaling-stroke" strokeDasharray="4,6" opacity="0.3" />
+
+                    {/* Animated Packages (Hub-to-Hub Relay) */}
+                    
+                    {/* Package 1: USA to Germany */}
+                    <g opacity="0">
+                      <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0; 0.02; 0.18; 0.2; 1" dur="10s" repeatCount="indefinite" />
+                      <animateMotion dur="10s" repeatCount="indefinite" path="M 20 32 Q 36 10 52 24" keyPoints="0;1;1" keyTimes="0;0.2;1" calcMode="linear" />
+                      <g>
+                        {/* Outer Aura */}
+                        <path d="M 0 0 L 0.001 0" stroke="#00aaff" strokeWidth="24" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.2" filter="url(#glow-3d)" />
+                        {/* Inner Glow */}
+                        <path d="M 0 0 L 0.001 0" stroke="#005bb5" strokeWidth="12" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.8" />
+                        {/* Core Solid Dot */}
+                        <path d="M 0 0 L 0.001 0" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                      </g>
+                    </g>
+
+                    {/* Package 2: Germany to UAE */}
+                    <g opacity="0">
+                      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0; 0.24; 0.26; 0.43; 0.45; 1" dur="10s" repeatCount="indefinite" />
+                      <animateMotion dur="10s" repeatCount="indefinite" path="M 52 24 Q 59 25 62 44" keyPoints="0;0;1;1" keyTimes="0;0.25;0.45;1" calcMode="linear" />
+                      <g>
+                        {/* Outer Aura */}
+                        <path d="M 0 0 L 0.001 0" stroke="#00aaff" strokeWidth="24" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.2" filter="url(#glow-3d)" />
+                        {/* Inner Glow */}
+                        <path d="M 0 0 L 0.001 0" stroke="#005bb5" strokeWidth="12" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.8" />
+                        {/* Core Solid Dot */}
+                        <path d="M 0 0 L 0.001 0" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                      </g>
+                    </g>
+
+                    {/* Package 3: UAE to India */}
+                    <g opacity="0">
+                      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0; 0.49; 0.51; 0.68; 0.70; 1" dur="10s" repeatCount="indefinite" />
+                      <animateMotion dur="10s" repeatCount="indefinite" path="M 62 44 Q 68 40 70 51" keyPoints="0;0;1;1" keyTimes="0;0.50;0.70;1" calcMode="linear" />
+                      <g>
+                        {/* Outer Aura */}
+                        <path d="M 0 0 L 0.001 0" stroke="#00aaff" strokeWidth="24" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.2" filter="url(#glow-3d)" />
+                        {/* Inner Glow */}
+                        <path d="M 0 0 L 0.001 0" stroke="#005bb5" strokeWidth="12" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.8" />
+                        {/* Core Solid Dot */}
+                        <path d="M 0 0 L 0.001 0" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                      </g>
+                    </g>
+
+                    {/* Package 4: India to Singapore */}
+                    <g opacity="0">
+                      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0; 0.74; 0.76; 0.93; 0.95; 1" dur="10s" repeatCount="indefinite" />
+                      <animateMotion dur="10s" repeatCount="indefinite" path="M 70 51 Q 76 52 78 64" keyPoints="0;0;1;1" keyTimes="0;0.75;0.95;1" calcMode="linear" />
+                      <g>
+                        {/* Outer Aura */}
+                        <path d="M 0 0 L 0.001 0" stroke="#00aaff" strokeWidth="24" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.2" filter="url(#glow-3d)" />
+                        {/* Inner Glow */}
+                        <path d="M 0 0 L 0.001 0" stroke="#005bb5" strokeWidth="12" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity="0.8" />
+                        {/* Core Solid Dot */}
+                        <path d="M 0 0 L 0.001 0" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                      </g>
+                    </g>
+                  </>
+                )}
+              </g>
+            </svg>
 
             {/* Floating Interactive Country Pins */}
             {mounted && (
               <div className="absolute inset-0 z-10 pointer-events-none">
-                {floatingCountries.map((country, idx) => (
-                  <div
-                    key={country.id}
-                    className="absolute pointer-events-auto group/pin"
-                    style={{
-                      top: country.top,
-                      left: country.left,
-                      animation: `float-3d 5s ease-in-out infinite ${idx * 0.4}s`
-                    }}
-                  >
-                    {/* Pin Point */}
-                    <div className="relative flex items-center justify-center cursor-pointer">
-                      <div className="w-3 h-3 lg:w-4 lg:h-4 bg-cyan-400 rounded-full shadow-[0_0_20px_#22d3ee]"></div>
-                      <div className="absolute w-8 h-8 lg:w-10 lg:h-10 border border-cyan-400/50 rounded-full animate-ping"></div>
+                {floatingCountries.map((country) => {
+                  const isActive = activeRegion === country.name;
+                  const isDimmed = activeRegion && !isActive;
+                  const isBottom = parseInt(country.top) > 45;
 
-                      {/* Country Name Label (Always Visible) */}
-                      <div className="absolute left-6 lg:left-8 text-cyan-50 font-bold text-xs lg:text-sm tracking-wide whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] bg-[#0a1118]/60 px-2.5 py-1 rounded-md backdrop-blur-md group-hover/pin:text-white transition-colors border border-cyan-500/20 group-hover/pin:border-cyan-400/60 shadow-lg">
-                        {country.name}
+                  return (
+                    <div
+                      key={country.id}
+                      className={`absolute pointer-events-auto transition-all duration-500 ${isDimmed ? 'opacity-40 scale-90' : 'opacity-100 scale-100'} ${isActive ? 'z-50' : 'z-10'}`}
+                      style={{
+                        top: country.top,
+                        left: country.left,
+                      }}
+                      onMouseEnter={() => setActiveRegion(country.name)}
+                      onMouseLeave={() => setActiveRegion(null)}
+                    >
+                      {/* Interactive Pin */}
+                      <div className="relative flex items-center justify-center cursor-pointer group/pin">
+                        {/* Pulse rings */}
+                        <div className={`absolute w-12 h-12 rounded-full border-2 ${isActive ? 'border-[#00aaff] animate-[pulse-ring_1.5s_cubic-bezier(0.215,0.61,0.355,1)_infinite]' : 'border-[#003e7a]/40 animate-[pulse-ring_3s_cubic-bezier(0.215,0.61,0.355,1)_infinite]'}`}></div>
+                        
+                        {/* Core Dot */}
+                        <div className={`w-4 h-4 rounded-full shadow-[0_0_20px_rgba(0,62,122,0.8)] border-2 border-white transition-colors duration-300 ${isActive ? 'bg-[#00aaff] scale-125' : 'bg-[#003e7a]'}`}></div>
+
+                        {/* Country Label (Always visible but enhanced on hover/active) */}
+                        <div className={`absolute left-8 font-bold text-sm tracking-wide whitespace-nowrap px-3 py-1.5 rounded-lg backdrop-blur-md transition-all duration-300 shadow-lg ${isActive ? 'bg-[#003e7a] text-white border border-[#005bb5] translate-x-2' : 'bg-white/90 text-[#121c2c] border border-blue-100'}`}>
+                          {country.name}
+                        </div>
+                      </div>
+
+                      {/* Detail Hover Card */}
+                      <div className={`absolute left-1/2 -translate-x-1/2 w-64 bg-white/95 backdrop-blur-xl border-2 border-blue-100 rounded-2xl p-5 transition-all duration-300 pointer-events-none shadow-[0_20px_40px_rgba(0,30,80,0.12)] ${isBottom ? 'bottom-full mb-3 origin-bottom' : 'top-12 origin-top'} ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                            <MapPin size={16} className="text-[#005bb5]" />
+                          </div>
+                          <div className="text-[#005bb5] text-[10px] font-black uppercase tracking-widest">{country.name} Hub</div>
+                        </div>
+                        <div className="text-[#424751] text-sm leading-relaxed font-medium">{country.detail}</div>
                       </div>
                     </div>
-
-                    {/* Hover Detail Card */}
-                    <div className="absolute top-10 left-1/2 -translate-x-1/2 w-56 lg:w-64 bg-[#0a1118]/95 backdrop-blur-xl border border-cyan-500/50 rounded-xl p-4 opacity-0 translate-y-4 group-hover/pin:opacity-100 group-hover/pin:translate-y-0 transition-all duration-300 pointer-events-none shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-50">
-                      <div className="text-cyan-400 text-[10px] lg:text-xs font-bold uppercase tracking-widest mb-1.5">{country.name} Hub</div>
-                      <div className="text-gray-200 text-xs lg:text-sm leading-relaxed">{country.detail}</div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
         </div>
 
-        {/* Cards Area (BELOW the map) */}
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 lg:gap-8">
-            {regions.map((region, idx) => (
-              <div key={region.name} className="region-card group relative rounded-3xl p-[1px] overflow-hidden cursor-pointer">
-                {/* Glowing Border effect */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${region.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
-                <div className="absolute inset-0 bg-white/10 opacity-100 group-hover:opacity-0 transition-opacity duration-700" />
-
-                {/* Inner Card content */}
-                <div className="relative h-full bg-[#121c2c]/90 backdrop-blur-xl rounded-[23px] p-8 flex flex-col items-center text-center group-hover:-translate-y-1 transition-transform duration-500 overflow-hidden">
-
-                  {/* Background flare on hover */}
-                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-40 h-40 bg-gradient-to-br ${region.color} opacity-0 group-hover:opacity-20 blur-3xl transition-opacity duration-700 rounded-full`} />
-
-                  {/* Count & Name */}
-                  <div className="relative z-10">
-                    <div className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-400 group-hover:from-white group-hover:to-white transition-all duration-300 mb-2 font-[family-name:var(--font-inter)] drop-shadow-sm">
-                      {region.count}
+        {/* Floating Region Cards */}
+        <div className="relative -mt-16 z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {floatingCountries.map((region, index) => {
+                const isActive = activeRegion === region.name;
+                const RegionIcon = region.Icon;
+                return (
+                  <div 
+                    key={index}
+                    className={`relative bg-white rounded-3xl p-7 transition-all duration-500 cursor-pointer overflow-hidden border group ${isActive ? 'border-blue-200 shadow-[0_20px_40px_rgba(0,170,255,0.15)] -translate-y-3' : 'border-blue-50/50 shadow-lg hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-2'}`}
+                    onMouseEnter={() => setActiveRegion(region.name)}
+                    onMouseLeave={() => setActiveRegion(null)}
+                  >
+                    <div className="absolute -bottom-6 -right-6 opacity-[0.03] transform group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-700 pointer-events-none">
+                      <RegionIcon size={140} />
                     </div>
-                    <div className="text-white font-bold text-xl mb-4 tracking-wide">{region.name}</div>
+
+                    <div className="flex justify-between items-start mb-6 relative z-10">
+                      <div>
+                        <div className="text-[#005bb5] text-xs font-black uppercase tracking-widest mb-1">{region.name}</div>
+                        <div className="text-5xl font-black bg-gradient-to-r from-[#003e7a] to-[#00aaff] bg-clip-text text-transparent drop-shadow-sm">{region.stats}</div>
+                      </div>
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 transform ${isActive ? 'bg-gradient-to-br from-[#005bb5] to-[#00aaff] rotate-6 scale-110 shadow-lg shadow-blue-500/30' : 'bg-blue-50 group-hover:bg-gradient-to-br group-hover:from-[#005bb5] group-hover:to-[#00aaff] group-hover:rotate-6 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/30'}`}>
+                        <RegionIcon size={26} className={`transition-colors duration-500 ${isActive ? 'text-white' : 'text-[#005bb5] group-hover:text-white'}`} />
+                      </div>
+                    </div>
+                    
+                    <div className="relative z-10">
+                      <h3 className="text-[#121c2c] font-bold text-base mb-2 group-hover:text-[#005bb5] transition-colors">{region.title}</h3>
+                      <p className="text-[#64748b] text-sm leading-relaxed">{region.desc}</p>
+                    </div>
+                    
+                    {/* Hover indicator line (Now a glowing bar) */}
+                    <div className="absolute bottom-0 left-0 h-1.5 w-full bg-blue-50">
+                      <div className={`h-full bg-gradient-to-r from-[#003e7a] to-[#00aaff] transition-all duration-700 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></div>
+                    </div>
                   </div>
-
-                  <div className="w-12 h-1 bg-gray-700/50 rounded-full mb-5 group-hover:w-full group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-blue-400 group-hover:to-transparent transition-all duration-700 ease-in-out"></div>
-
-                  <div className="relative z-10 flex-1 flex flex-col justify-between items-center w-full">
-                    <div className="text-[#60e0cc] font-medium text-xs sm:text-sm uppercase tracking-widest mb-3">{region.label}</div>
-                    <div className="text-[#a0aabf] text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300 px-2">{region.desc}</div>
-                  </div>
-
-                </div>
-              </div>
-            ))}
+                );
+              })}
+            </div>
           </div>
-        </div>
+          
+        <style>{`
+          @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(2.5); opacity: 0; }
+          }
+        `}</style>
       </section>
 
       {/* CTA STRIP - REDESIGNED (LIGHT/PROFESSIONAL THEME) */}
-      <section className="relative py-32 bg-gradient-to-b from-[#f8fafc] to-[#f0f4f8] overflow-hidden">
+      <section className="relative py-16 lg:py-24 bg-gradient-to-b from-[#f8fafc] to-[#f0f4f8] overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-400/10 rounded-full blur-[120px] pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
         <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-cyan-400/10 rounded-full blur-[100px] pointer-events-none" />
