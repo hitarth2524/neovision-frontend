@@ -97,7 +97,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/products`);
+        const res = await fetch(`/api/products`);
         const data = await res.json();
         const enriched = (data.data as Product[]).map(p => ({ ...p, price: p.price ?? getPrice(p.name) }));
         setProducts(enriched);

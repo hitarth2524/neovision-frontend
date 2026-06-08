@@ -305,7 +305,7 @@ export default function OrderPage() {
     setLoadingProducts(true);
     setSearchQuery('');
     try {
-      const res = await fetch(`${API_URL}/api/products`);
+      const res = await fetch(`/api/products`);
       const data = await res.json();
       const allProducts: Product[] = (data.data || []).map((p: Product) => ({ ...p, price: p.price ?? getPrice(p.name) }));
       // Filter by category (Tablet & Capsule share similar DB category names)
