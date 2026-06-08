@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://neovision-backend-ngm8.onrender.com';
 
 const categories = ['All', 'Eye Drop', 'Ear Drop', 'Tablet', 'Capsule', 'Nasal Spray', 'Lubricant Gel'];
 

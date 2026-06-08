@@ -10,7 +10,7 @@ import {
   Sparkles, ChevronLeft, Star
 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://neovision-backend-ngm8.onrender.com';
 
 // ─── Price Lookup (matches product name, case-insensitive) ───────────────────
 const PRICE_MAP: Record<string, number> = {
